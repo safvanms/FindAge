@@ -56,6 +56,7 @@ export default function AgeCalculator() {
       <h1 className="heading">How Old Are you ?</h1>
       <div className="section">
         <form onSubmit={handleSubmit}>
+        <label htmlFor="date">Enter age here:</label>
           <input
             type="date"
             name="date"

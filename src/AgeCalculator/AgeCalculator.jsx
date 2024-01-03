@@ -61,7 +61,8 @@ export default function AgeCalculator() {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            placeholder="Enter age here "
+            placeholder="MM-DD-YYYY"
+            id="date"
           />
           <button type="submit">
             {!formData.date ? "Enter date" : "Check it"}

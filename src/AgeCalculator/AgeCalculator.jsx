@@ -61,13 +61,14 @@ export default function AgeCalculator() {
             name="date"
             value={formData.date}
             onChange={handleChange}
+            placeholder="Enter age here "
           />
           <button type="submit">
             {!formData.date ? "Enter date" : "Check it"}
           </button>
         </form>
         {birthDay && result && <h1 className="bDay">Happy Birthday !</h1>}
-        {result && <p> {result} </p>}
+        {result && <p className="result"> {result} </p>}
         {result && (
           <p className="info">
             Please note that the exact number of days may vary slightly due to

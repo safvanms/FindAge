@@ -18,7 +18,7 @@ export default function AgeCalculator() {
   const handleSubmit = (e) => {
     e.preventDefault();
     calculateAge(formData.date);
-    // setFormData({ date: "" });
+    setFormData({ date: "" });
   };
 
   const getMonthName = (monthNumber) => {
@@ -105,7 +105,6 @@ export default function AgeCalculator() {
         setBirthDay(true);
       }
 
-      console.log(birthDay);
     } else {
       notValidDate && setResult(`Fool , it's a future date !`);
     }

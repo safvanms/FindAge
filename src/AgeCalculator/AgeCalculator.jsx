@@ -18,37 +18,97 @@ export default function AgeCalculator() {
   const handleSubmit = (e) => {
     e.preventDefault();
     calculateAge(formData.date);
-    setFormData({ date: "" });
+    // setFormData({ date: "" });
+  };
+
+  const getMonthName = (monthNumber) => {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return months[monthNumber];
+  };
+
+  const getDayWithSuffix = (day) => {
+    if (day >= 11 && day <= 13) {
+      return `${day}th`;
+    }
+
+    switch (day % 10) {
+      case 1:
+        return `${day}st`;
+      case 2:
+        return `${day}nd`;
+      case 3:
+        return `${day}rd`;
+      default:
+        return `${day}th`;
+    }
   };
 
   const calculateAge = (date) => {
     const today = new Date();
     const notValidDate = new Date(date).getTime() > today.getTime();
+    const enteredDate = new Date(date);
+    const thisDay =
+      enteredDate.getFullYear() === today.getFullYear() &&
+      enteredDate.getMonth() === today.getMonth() &&
+      enteredDate.getDate() === today.getDate();
+    const isBirthday =
+      enteredDate.getDate() === today.getDate() &&
+      enteredDate.getMonth() === today.getMonth();
+
     if (!date) {
       setBirthDay(false);
       return setResult(`Enter a date first `);
+    } else if (thisDay) {
+      const thisDayWithSuffix = getDayWithSuffix(today.getDate());
+      setResult(
+        `${thisDayWithSuffix} ${getMonthName(
+          today.getMonth()
+        )} is today, isn't it?`
+      );
+      setBirthDay(false);
     } else if (!notValidDate) {
-      const birthDate = new Date(date);
+      let years = today.getFullYear() - enteredDate.getFullYear();
+      let months = today.getMonth() - enteredDate.getMonth();
+      let days = today.getDate() - enteredDate.getDate();
 
-      const ageInMilliseconds = today - birthDate;
-      const ageInSeconds = ageInMilliseconds / 1000;
-      const ageInMinutes = ageInSeconds / 60;
-      const ageInHours = ageInMinutes / 60;
-      const ageInDays = ageInHours / 24;
+      if (days < 0) {
+        months--;
+        const lastMonthDays = new Date(
+          today.getFullYear(),
+          today.getMonth(),
+          0
+        ).getDate();
+        days += lastMonthDays;
+      }
 
-      const years = Math.floor(ageInDays / 365);
-      const months = Math.floor((ageInDays % 365) / 30);
-      const days = Math.floor(ageInDays % 30);
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
 
       setResult(`Age is ${years} years, ${months} months, and ${days} days`);
 
-      const isBirthday =
-        birthDate.getDate() === today.getDate() &&
-        birthDate.getMonth() === today.getMonth();
+      if (isBirthday && !thisDay) {
+        setBirthDay(true);
+      }
 
-      setBirthDay(isBirthday);
+      console.log(birthDay);
+    } else {
+      notValidDate && setResult(`Fool , it's a future date !`);
     }
-    notValidDate && setResult(`Fool , it's a future date !`);
   };
 
   return (
@@ -56,7 +116,7 @@ export default function AgeCalculator() {
       <h1 className="heading">How Old Are you ?</h1>
       <div className="section">
         <form onSubmit={handleSubmit}>
-        <label htmlFor="date">Enter age here:</label>
+          <label htmlFor="date">Enter age here:</label>
           <input
             type="date"
             name="date"
@@ -71,12 +131,6 @@ export default function AgeCalculator() {
         </form>
         {birthDay && result && <h1 className="bDay">Happy Birthday !</h1>}
         {result && <p className="result"> {result} </p>}
-        {result && (
-          <p className="info">
-            Please note that the exact number of days may vary slightly due to
-            the impact of leap years.
-          </p>
-        )}
       </div>
     </div>
   );

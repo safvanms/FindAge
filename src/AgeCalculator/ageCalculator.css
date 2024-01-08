@@ -59,13 +59,8 @@
 
 .bDay {
   margin: 20px 0 0 0;
-}
-
-.info {
-  font-size: 9px;
-  color: red;
-  text-align: center;
-  width: 250px;
+  white-space: nowrap;
+  font-weight: bolder;
 }
 
 .result {

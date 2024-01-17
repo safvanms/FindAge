@@ -132,7 +132,7 @@ export default function AgeCalculator() {
             placeholder="Jon Doe"
             required
           />
-          <label htmlFor="date">Enter age here:</label>
+          <label htmlFor="date">Enter or Select your Age </label>
           <input
             type="date"
             name="date"

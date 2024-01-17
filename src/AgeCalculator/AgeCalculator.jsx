@@ -4,6 +4,7 @@ import "./ageCalculator.css";
 export default function AgeCalculator() {
   const [formData, setFormData] = useState({
     date: "",
+    name: "",
   });
   const [result, setResult] = useState(null);
   const [birthDay, setBirthDay] = useState(false);
@@ -18,7 +19,7 @@ export default function AgeCalculator() {
   const handleSubmit = (e) => {
     e.preventDefault();
     calculateAge(formData.date);
-    setFormData({ date: "" });
+    setFormData({ date: "", name: "" });
   };
 
   const getMonthName = (monthNumber) => {
@@ -99,12 +100,19 @@ export default function AgeCalculator() {
         months += 12;
       }
 
-      setResult(`Age is ${years} years, ${months} months, and ${days} days`);
+      setBirthDay(false);
+
+      setResult(
+        ` ${formData.name ? formData.name + " is  " : "you are"} ${years} ${
+          years !== 1 ? "years" : "year"
+        }, ${months} ${months !== 1 ? "months" : "month"}, and ${days} ${
+          days !== 1 ? "days" : "day"
+        } old `
+      );
 
       if (isBirthday && !thisDay) {
         setBirthDay(true);
       }
-
     } else {
       notValidDate && setResult(`Fool , it's a future date !`);
     }
@@ -115,6 +123,15 @@ export default function AgeCalculator() {
       <h1 className="heading">How Old Are you ?</h1>
       <div className="section">
         <form onSubmit={handleSubmit}>
+          <label htmlFor="date">Please enter your Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Jon Doe"
+            required
+          />
           <label htmlFor="date">Enter age here:</label>
           <input
             type="date"

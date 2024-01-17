@@ -118,35 +118,46 @@ export default function AgeCalculator() {
     }
   };
 
+  const resetResult = () => {
+    setResult(null);
+  };
+
   return (
     <div className="date_container">
       <h1 className="heading">How Old Are you ?</h1>
       <div className="section">
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="date">Please enter your Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Jon Doe"
-            required
-          />
-          <label htmlFor="date">Enter or Select your Age </label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            placeholder="MM-DD-YYYY"
-            id="date"
-          />
-          <button type="submit">
-            {!formData.date ? "Enter date" : "Check it"}
-          </button>
-        </form>
+        {!result && (
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="date">Please enter your Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Jon Doe"
+              required
+            />
+            <label htmlFor="date">Enter or Select your Date </label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              placeholder="MM-DD-YYYY"
+              id="date"
+            />
+            <button type="submit">
+              {!formData.date ? "Enter date" : "Check it"}
+            </button>
+          </form>
+        )}
         {birthDay && result && <h1 className="bDay">Happy Birthday !</h1>}
-        {result && <p className="result"> {result} </p>}
+        {result && (
+          <div className="result_container">
+            <p className="result"> {result} </p>
+            <button  onClick={resetResult}>Go back</button>
+          </div>
+        )}
       </div>
     </div>
   );
